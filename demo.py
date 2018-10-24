@@ -105,8 +105,8 @@ def main(_):
         batch = {'img': torch.Tensor(np.expand_dims(img, 0))}
     
         outputs = predictor.predict(batch)
-        vert = outputs['verts'][0].cpu().data.numpy()
-        faces = outputs['faces'].cpu().data.numpy()
+        vert = outputs['verts'][0].cpu().numpy()
+        faces = outputs['faces'].cpu().numpy()
         print(faces.shape)
         print(vert.shape)
         input()
