@@ -98,7 +98,7 @@ def visualize(img, outputs, renderer):
 
 def main(_):
     predictor = pred_util.MeshPredictor(opts)
-    img_list = glob.glob(opts.img_path)
+    img_list = glob.glob(opts.img_path + r'/*.jpg')
     for filename in img_list:
         img = io.imread(filename) / 255.
         img = preprocess_image(img, img_size=opts.img_size)
