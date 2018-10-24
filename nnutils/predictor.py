@@ -20,7 +20,7 @@ import scipy.io as sio
 from ..nnutils import mesh_net
 from ..nnutils import geom_utils
 from ..nnutils.nmr import NeuralRenderer
-from ..utils import bird_vis
+# from ..utils import bird_vis
 
 # These options are off by default, but used for some ablations reported.
 flags.DEFINE_boolean('ignore_pred_delta_v', False, 'Use only mean shape for prediction')
@@ -66,9 +66,9 @@ class MeshPredictor(object):
             # For visualization
             faces = self.model.faces.view(1, -1, 3)
         self.faces = faces.repeat(opts.batch_size, 1, 1)
-        self.vis_rend = bird_vis.VisRenderer(opts.img_size,
-                                             faces.data.cpu().numpy())
-        self.vis_rend.set_bgcolor([1., 1., 1.])
+        # self.vis_rend = bird_vis.VisRenderer(opts.img_size,
+        #                                      faces.data.cpu().numpy())
+        # self.vis_rend.set_bgcolor([1., 1., 1.])
 
         self.resnet_transform = torchvision.transforms.Normalize(
             mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
