@@ -106,10 +106,8 @@ def main(_):
     
         outputs = predictor.predict(batch)
         vert = (outputs['verts'][0]).cpu().numpy()
-        print(vert.shape)
-        input()
-        faces = (outputs['faces'].data).cpu().numpy()
-        print(faces.shape)
+        faces = (outputs['faces'])
+        print(faces)
         input()
 
     # This is resolution
