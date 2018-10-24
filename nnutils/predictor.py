@@ -180,6 +180,7 @@ class MeshPredictor(object):
             'kp_verts': self.kp_verts.data,
             'cam_pred': self.cam_pred.data,
             'mask_pred': self.mask_pred.data,
+            'faces': self.faces
         }
         if self.opts.texture and not self.opts.use_sfm_ms:
             outputs['texture'] = self.textures

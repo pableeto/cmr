@@ -105,7 +105,10 @@ def main(_):
         batch = {'img': torch.Tensor(np.expand_dims(img, 0))}
     
         outputs = predictor.predict(batch)
-        print(outputs)
+        vert = outputs['verts'][0].numpy()
+        faces = outputs['faces'].numpy()
+        print(faces.shape)
+        print(vert.shape)
         input()
 
     # This is resolution
