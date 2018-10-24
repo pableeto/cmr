@@ -99,6 +99,9 @@ def visualize(img, outputs, renderer):
 def main(_):
     predictor = pred_util.MeshPredictor(opts)
     img_list = glob.glob(opts.img_path + r'/*.jpg')
+
+    vert_list = []
+    face_list = []
     for filename in img_list:
         img = io.imread(filename) / 255.
         img = preprocess_image(img, img_size=opts.img_size)
@@ -106,9 +109,17 @@ def main(_):
     
         outputs = predictor.predict(batch)
         vert = (outputs['verts'][0]).cpu().numpy()
+        vert_list.append(vert)
         faces = (outputs['faces'][0].data).cpu().numpy()
-        print(faces)
-        input()
+        face_list.append(faces)
+
+    vert_array = np.stack(vert_list, axis = 0)
+    face_array = np.stack(face_list, axis = 0)
+
+    np.save(opts.img_path + r'/out_vert', vert_array)
+    np.save(opts.img_path + r'/out_face', face_array)
+
+        
 
     # This is resolution
     # renderer = predictor.vis_rend
