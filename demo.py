@@ -21,7 +21,7 @@ import torch
 from .nnutils import test_utils
 from .nnutils import predictor as pred_util
 from .utils import image as img_util
-
+import glob
 
 flags.DEFINE_string('img_path', 'data/im1963.jpg', 'Image to run')
 flags.DEFINE_integer('img_size', 256, 'image size the network was trained on.')
@@ -29,9 +29,7 @@ flags.DEFINE_integer('img_size', 256, 'image size the network was trained on.')
 opts = flags.FLAGS
 
 
-def preprocess_image(img_path, img_size=256):
-    img = io.imread(img_path) / 255.
-
+def preprocess_image(img, img_size=256):
     # Scale the max image size to be img_size
     scale_factor = float(img_size) / np.max(img.shape[:2])
     img, _ = img_util.resize_img(img, scale_factor)
@@ -99,19 +97,22 @@ def visualize(img, outputs, renderer):
 
 
 def main(_):
-
-    img = preprocess_image(opts.img_path, img_size=opts.img_size)
-
-    batch = {'img': torch.Tensor(np.expand_dims(img, 0))}
-
     predictor = pred_util.MeshPredictor(opts)
-    outputs = predictor.predict(batch)
+    img_list = glob.glob(opts.img_path)
+    for filename in img_list:
+        img = io.imread(filename) / 255.
+        img = preprocess_image(img, img_size=opts.img_size)
+        batch = {'img': torch.Tensor(np.expand_dims(img, 0))}
+    
+        outputs = predictor.predict(batch)
+        print(outputs)
+        input()
 
     # This is resolution
-    renderer = predictor.vis_rend
-    renderer.set_light_dir([0, 1, -1], 0.4)
+    # renderer = predictor.vis_rend
+    # renderer.set_light_dir([0, 1, -1], 0.4)
 
-    visualize(img, outputs, predictor.vis_rend)
+    # visualize(img, outputs, predictor.vis_rend)
 
 
 if __name__ == '__main__':
