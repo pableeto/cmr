@@ -106,7 +106,7 @@ def main(_):
     
         outputs = predictor.predict(batch)
         vert = (outputs['verts'][0]).cpu().numpy()
-        faces = (outputs['faces'][0]).cpu().numpy()
+        faces = (outputs['faces'][0].data).cpu().numpy()
         print(faces)
         input()
 
